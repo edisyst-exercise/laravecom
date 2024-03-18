@@ -12,6 +12,8 @@ class Client extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $guard = "client";
+
     /**
      * The attributes that are mass assignable.
      *

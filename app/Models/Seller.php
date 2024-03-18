@@ -12,6 +12,8 @@ class Seller extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $guard = "seller";
+
     /**
      * The attributes that are mass assignable.
      *

@@ -58,7 +58,9 @@
         </div>
         <div class="login-menu">
             <ul>
-                <li><a href="register.html">Register</a></li>
+                @if(! \Illuminate\Support\Facades\Route::is('admin.*'))
+                    <li><a href="register.html">Register</a></li>
+                @endif
             </ul>
         </div>
     </div>
@@ -83,6 +85,16 @@
 <script src="/back/vendors/scripts/script.min.js"></script>
 <script src="/back/vendors/scripts/process.js"></script>
 <script src="/back/vendors/scripts/layout-settings.js"></script>
+
+<script>
+    // Per impedire di tornare indietro dalla pagina di login
+    if (navigator.userAgent.indexOf("Firefox") != -1) {
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+    }
+</script>
 
 @stack('scripts')
 </body>

@@ -200,8 +200,16 @@ class AdminController extends Controller
             session()->flash('fail', "Qualcosa è andato storto");
             return redirect()->route('admin.forgot-password');
         }
-
     }
+
+    public function profileView(Request $request)
+    {
+        // COPIA DA 16:16
+        // VEDI SE ACQUISTARE
+    }
+
+
+
 
 }
 

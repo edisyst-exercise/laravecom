@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Admin\ForgotPasswordMail;
-use App\Mail\TestMail;
+use App\Mail\Admin\ResetPasswordMail;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -143,8 +143,7 @@ class AdminController extends Controller
 
         if ($check_token) {
             //check expired token
-            $diffMins = Carbon::createFromFormat('Y-m-d H:i:s', $check_token->created_at)
-                ->diffInMinutes(Carbon::now());
+            $diffMins = Carbon::createFromFormat('Y-m-d H:i:s', $check_token->created_at)->diffInMinutes(Carbon::now());
 
             if ($diffMins > ConstDefaults::tokenExpiredMinutes) {
                 session()->flash('fail', "Token scaduto, fai il reset password");
@@ -168,7 +167,7 @@ class AdminController extends Controller
         // Get token
         $token = DB::table('password_reset_tokens')
             ->where([
-                'token' => $token,
+                'token' => $request->token,
                 'guard' => ConstGuards::ADMIN,
             ])
             ->first();
@@ -184,24 +183,17 @@ class AdminController extends Controller
         //Delete token
         DB::table('password_reset_tokens')
             ->where([
-                'token' => $token,
+                'email' => $admin->email,
+                'token' => $request->token,
                 'guard' => ConstGuards::ADMIN,
             ])
             ->delete();
 
         //Send email to notify admin
-        //DA QUI CONVIENE CHE FACCIA PER CONTO MIO LA MAIL DI CONFERMA - 11:05
-        // Create action link
-        $actionLink = route('admin.reset-password', [
-            'token' => $token,
-            'email' => $request->email,
-        ]);
-
-        // Send email
-        if (Mail::to($admin->email)->send(new ForgotPasswordMail($admin->name, $actionLink)))
+        if (Mail::to($admin->email)->send(new ResetPasswordMail($admin, $request->new_password)))
         {
             return redirect()->route('admin.login')
-                ->with('success', 'La tua password è stata modificata. Vai al login');
+                ->with('success', 'La tua password è stata modificata');
         }
         else
         {

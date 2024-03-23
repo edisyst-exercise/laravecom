@@ -1,4 +1,4 @@
-<p>Caro {{ $admin }}</p>
+<p>Caro {{ $admin->name }}</p>
 <p>
     La tua password è stata aggiornata
     <br>

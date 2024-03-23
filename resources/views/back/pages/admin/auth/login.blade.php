@@ -18,6 +18,14 @@
                     </button>
                 </div>
             @endif
+            @if( \Illuminate\Support\Facades\Session::get('success') )
+                <div class="alert alert-success">
+                    {{ \Illuminate\Support\Facades\Session::get('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            @endif
 
             <div class="input-group custom">
                 <input type="text" name="login_id" value="{{ old('login_id') }}" class="form-control form-control-lg" placeholder="Email/Username" />

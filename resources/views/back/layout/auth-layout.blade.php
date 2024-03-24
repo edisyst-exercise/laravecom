@@ -44,6 +44,7 @@
     />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
 
+    <link rel="stylesheet" href="/public/extra-assets/ijabo/ijabo.min.css">
     @stack('stylesheets')
 </head>
 <body class="login-page">
@@ -94,6 +95,25 @@
             history.pushState(null, null, document.URL);
         });
     }
+</script>
+
+<script src="public/extra-assets/ijabo/ijabo.min.js"></script>
+<script src="public/extra-assets/ijabo/jquery.ijaboViewer.min.js"></script>
+<script>
+    window.addEventListener('showToastr', function (event) {
+        toastr.remove();
+        if (event.detail.type === 'info') {
+            toastr.info(event.detail.message);
+        } else if (event.detail.type === 'success') {
+            toastr.success(event.detail.message);
+        } else if (event.detail.type === 'error') {
+            toastr.error(event.detail.message);
+        } else if (event.detail.type === 'warning') {
+            toastr.warning(event.detail.message);
+        } else {
+            return false;
+        }
+    });
 </script>
 
 @stack('scripts')

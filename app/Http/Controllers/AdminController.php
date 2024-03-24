@@ -204,8 +204,13 @@ class AdminController extends Controller
 
     public function profileView(Request $request)
     {
-        // COPIA DA 16:16
-        // VEDI SE ACQUISTARE
+        $admin = null;
+
+        if ( Auth::guard('admin')->check() ) {
+            $admin = Admin::findOrFail(auth()->id());
+        }
+
+        return view('back.pages.admin.profile', compact('admin'));
     }
 
 

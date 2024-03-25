@@ -43,8 +43,9 @@
         href="/back/vendors/styles/icon-font.min.css"
     />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
-
     <link rel="stylesheet" href="/public/extra-assets/ijabo/ijabo.min.css">
+
+    @livewireStyles
     @stack('stylesheets')
 </head>
 <body class="login-page">
@@ -116,6 +117,7 @@
     });
 </script>
 
+@livewireScripts
 @stack('scripts')
 </body>
 </html>

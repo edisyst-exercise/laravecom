@@ -58,8 +58,10 @@
         })(window, document, "script", "dataLayer", "GTM-NXZMQSS");
     </script>
     <!-- End Google Tag Manager -->
-
     <link rel="stylesheet" href="/public/extra-assets/ijabo/ijabo.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @livewireStyles
     @stack('stylesheets')
 </head>
 <body>
@@ -234,76 +236,8 @@
             </div>
         </div>
 
-        @if(\Illuminate\Support\Facades\Auth::guard('admin')->check())
-            <div class="user-info-dropdown">
-                <div class="dropdown">
-                    <a
-                        class="dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-toggle="dropdown"
-                    >
-							<span class="user-icon">
-								<img src="/back/vendors/images/photo1.jpg" alt="" />
-							</span>
-                        <span class="user-name">Ross C. Lopez</span>
-                    </a>
-                    <div
-                        class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                    >
-                        <a class="dropdown-item" href="{{ route('admin.profile') }}"
-                        ><i class="dw dw-user1"></i> Profile</a
-                        >
-                        <a class="dropdown-item" href="profile.html"
-                        ><i class="dw dw-settings2"></i> Setting</a
-                        >
-                        <a class="dropdown-item" href="faq.html"
-                        ><i class="dw dw-help"></i> Help</a
-                        >
-                        <a class="dropdown-item" href="{{ route('admin.logout_handler') }}"
-                           onclick="event.preventDefault(); document.getElementById('adminLogoutForm').submit();"
-                        ><i class="dw dw-logout"></i> Log Out</a>
-                        <form action="{{ route('admin.logout_handler') }}" id="adminLogoutForm" method="post">@csrf</form>
-                    </div>
-                </div>
-            </div>
-
-        @elseif(\Illuminate\Support\Facades\Auth::guard('seller')->check())
-            <div class="user-info-dropdown">
-                <div class="dropdown">
-                    <a
-                        class="dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-toggle="dropdown"
-                    >
-							<span class="user-icon">
-								<img src="/back/vendors/images/photo1.jpg" alt="" />
-							</span>
-                        <span class="user-name">Ross C. Lopez</span>
-                    </a>
-                    <div
-                        class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                    >
-                        <a class="dropdown-item" href="profile.html"
-                        ><i class="dw dw-user1"></i> Profile</a
-                        >
-                        <a class="dropdown-item" href="profile.html"
-                        ><i class="dw dw-settings2"></i> Setting</a
-                        >
-                        <a class="dropdown-item" href="faq.html"
-                        ><i class="dw dw-help"></i> Help</a
-                        >
-                        <a class="dropdown-item" href="{{ route('admin.logout_handler') }}"
-                           onclick="event.preventDefault(); document.getElementById('adminLogoutForm').submit();"
-                        ><i class="dw dw-logout"></i> Log Out</a
-                        >
-                        <form action="{{ route('admin.logout_handler') }}" id="adminLogoutForm" method="post">@csrf</form>
-                    </div>
-                </div>
-            </div>
-
-        @endif
+{{--        <livewire:admin-seller-header-profile-info />--}}
+        @livewire('admin-seller-header-profile-info')
 
 
         <div class="github-link">
@@ -597,23 +531,20 @@
 
 <script src="public/extra-assets/ijabo/ijabo.min.js"></script>
 <script src="public/extra-assets/ijabo/jquery.ijaboViewer.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    window.addEventListener('showToastr', function (event) {
+    window.addEventListener('showToastr', function(event){
         toastr.remove();
-        if (event.detail.type === 'info') {
-            toastr.info(event.detail.message);
-        } else if (event.detail.type === 'success') {
-            toastr.success(event.detail.message);
-        } else if (event.detail.type === 'error') {
-            toastr.error(event.detail.message);
-        } else if (event.detail.type === 'warning') {
-            toastr.warning(event.detail.message);
-        } else {
-            return false;
-        }
+        if(event.detail[0].type === 'info'){ toastr.info(event.detail[0].message);}
+        else if(event.detail[0].type === 'success'){toastr.success(event.detail[0].message);}
+        else if(event.detail[0].type === 'error'){toastr.error(event.detail[0].message);}
+        else if(event.detail[0].type === 'warning'){toastr.warning(event.detail[0].message);}
+        else{return false; }
     });
 </script>
 
+@livewireScripts
 @stack('scripts')
 </body>
 </html>

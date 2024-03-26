@@ -14,7 +14,6 @@
             <div class="tab-content">
                 <!-- personal_details Tab start -->
                 <div class="tab-pane fade {{ $tab == 'personal_details' ? "show active" : ""}}" id="personal_details" role="tabpanel">
-                    ------personal_details------
                     <div class="pd-20">
                         <form wire:submit.prevent="updateAdminPersonalDetails()">
                             <div class="row">
@@ -53,7 +52,41 @@
                 <!-- personal_details Tab End -->
                 <!-- update_password Tab start -->
                 <div class="tab-pane fade {{ $tab == 'update_password' ? "show active" : ""}}" id="update_password" role="tabpanel">
-                    ------update_password------
+                    <div class="pd-20">
+                        <form wire:submit.prevent="updatePassword()">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Current password</label>
+                                        <input type="password" class="form-control" wire:model.defer="current_password" placeholder="Enter current password" />
+                                        @error('current_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">New password</label>
+                                        <input type="password" class="form-control" wire:model.defer="new_password" placeholder="Enter new password" />
+                                        @error('new_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Confirm new password</label>
+                                        <input type="password" class="form-control" wire:model.defer="new_password_confirmation" placeholder="Confirm new password" />
+                                        @error('new_password_confirmation')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update password</button>
+                        </form>
+                    </div>
                 </div>
                 <!-- update_password Tab End -->
             </div>

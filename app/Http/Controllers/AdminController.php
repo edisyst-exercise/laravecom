@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -213,6 +214,27 @@ class AdminController extends Controller
         return view('back.pages.admin.profile', compact('admin'));
     }
 
+    public function changeProfilePicture(Request $request)
+    {
+        $admin = Admin::findOrFail(auth('admin')->id());
+        $path = "images/users/admins/";
+        $old_picture = $admin->getAttributes()['picture'];
+
+        $file = $request->file('adminProfilePictureFile');
+        $filename = "ADMIN_IMG_" . rand(2, 1000) . $admin->id . time() . uniqid() . ".jpg";
+        $upload = $file->move(public_path($path), $filename);
+
+        if ($upload) {
+            if ($old_picture != null && File::exists(public_path($path . $old_picture))) {
+                File::delete(public_path($path. $old_picture));
+            }
+            $admin->update(['picture' => $filename]);
+            return response()->json(['status' => 1, 'msg' => 'Immagine aggiornata']);
+            // FUNZIONA TUTTO PERO' QUESTA IMMAGINE NON LA AGGIORNA IN TEMPO REALE
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Qualcosa è andato storto']);
+        }
+    }
 
 
 

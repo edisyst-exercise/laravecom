@@ -12,3 +12,15 @@ composer dump-autoload
 
 composer require livewire/livewire
 php artisan make:livewire counte
+
+`$this->emit` non si usa più per emettere gli eventi, si usa invece:
+
+```php
+$this->dispatch('updateAdminInfo', [
+    "adminName"   => $this->name,
+    "adminEmail"  => $this->email,
+]);
+```
+
+
+https://github.com/mberecall/ijaboCropTool

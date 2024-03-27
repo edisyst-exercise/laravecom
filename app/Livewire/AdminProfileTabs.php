@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Mail\Admin\ResetPasswordMail;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class AdminProfileTabs extends Component
@@ -76,6 +78,10 @@ class AdminProfileTabs extends Component
 
         if ($query) {
             $this->current_password = $this->new_password = $this->new_password_confirmation = null;
+
+            $admin = Admin::findOrFail(auth('admin')->id());
+            Mail::to($this->email)->send(new ResetPasswordMail($admin, $this->new_password));
+
             $this->showToastr('success', 'Password aggiornata correttamente');
         } else {
             $this->showToastr('error', 'Password non aggiornata per via di un errore');

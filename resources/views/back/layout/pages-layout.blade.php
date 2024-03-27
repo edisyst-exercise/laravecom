@@ -439,7 +439,8 @@
 
                 @if( \Illuminate\Support\Facades\Route::is('admin.*') )
                     <li>
-                        <a href="{{ route('admin.home') }}" class="dropdown-toggle no-arrow">
+                        <a href="{{ route('admin.home') }}"
+                           class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.home') ? 'active' : '' }}">
                             <span class="micon fa fa-home"></span>
                             <span class="mtext">Home</span>
                         </a>
@@ -458,7 +459,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.profile') }}"
-                           class="dropdown-toggle no-arrow">
+                           class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.profile') ? 'active' : '' }}">
                             <span class="micon bi bi-layout-text-window-reverse"></span>
                             <span class="mtext">Profile</span>
                         </a>

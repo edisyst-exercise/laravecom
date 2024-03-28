@@ -447,8 +447,8 @@
                     </li>
                     <li>
                         <a href="invoice.html" class="dropdown-toggle no-arrow">
-								<span class="micon bi bi-receipt-cutoff"></span
-                                ><span class="mtext">Invoice</span>
+                            <span class="micon bi bi-receipt-cutoff"></span>
+                            <span class="mtext">Invoice</span>
                         </a>
                     </li>
                     <li>
@@ -464,17 +464,24 @@
                             <span class="mtext">Profile</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.settings') }}"
+                           class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.settings') ? 'active' : '' }}">
+                            <span class="micon icon-copy fi-widget"></span>
+                            <span class="mtext">Settings</span>
+                        </a>
+                    </li>
                 @else
                     <li>
                         <a href="calendar.html" class="dropdown-toggle no-arrow">
-								<span class="micon fa fa-home"></span
-                                ><span class="mtext">Home</span>
+                            <span class="micon fa fa-home"></span>
+                            <span class="mtext">Home</span>
                         </a>
                     </li>
                     <li>
                         <a href="invoice.html" class="dropdown-toggle no-arrow">
-								<span class="micon bi bi-receipt-cutoff"></span
-                                ><span class="mtext">Invoice</span>
+                            <span class="micon bi bi-receipt-cutoff"></span>
+                            <span class="mtext">Invoice</span>
                         </a>
                     </li>
                     <li>
@@ -508,9 +515,7 @@
         </div>
         <div class="footer-wrap pd-20 mb-20 card-box">
             DeskApp - Bootstrap 4 Admin Template By
-            <a href="https://github.com/dropways" target="_blank"
-            >Ankit Hingarajiya</a
-            >
+            <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
         </div>
     </div>
 </div>

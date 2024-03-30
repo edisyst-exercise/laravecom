@@ -94,20 +94,78 @@
                                 <button type="submit" class="btn btn-primary">Change Logo</button>
                             </form>
                         </div>
+                        <div class="col-md-6">
+                            <h5>Site favicon</h5>
+                            <div class="mb-2 mt-1" style="max-width: 200px;">
+                                <img wire:ignore src="" data-ijabo-default-img="/images/site/{{ $site_favicon }}"
+                                     id="site_favicon_image_preview" class="img-thumbnail">
+                            </div>
+                            <form action="{{ route('admin.change-favicon') }}" method="post" enctype="multipart/form-data" id="change_site_favicon_form">
+                                @csrf
+                                <div class="mb-2">
+                                    <input type="file" name="site_favicon" id="site_favicon" class="form-control">
+                                    <span class="text-danger error-text site_favicon_error"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change favicon</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade {{ $tab == 'social_networks' ? 'show active' : ''}}" id="social_networks" role="tabpanel">
                 <div class="pd-20">
-                    social_networks ipsum dolor sit amet, consectetur adipisicing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum.
+                    <form wire:submit.prevent="updateSocialNetworks()">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="facebook_url"><b>Facebook URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="facebook_url">
+                                    @error('facebook_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="twitter_url"><b>Twitter URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="twitter_url" placeholder="Enter Twitter URL">
+                                    @error('twitter_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="instagram_url"><b>Instagram URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="instagram_url" placeholder="Enter Insta URL">
+                                    @error('instagram_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="youtube_url"><b>Youtube URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="youtube_url" placeholder="Enter YT URL">
+                                    @error('youtube_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="github_url"><b>GitHub URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="github_url" placeholder="Enter GH URL">
+                                    @error('github_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="linkedin_url"><b>Linkedin URL</b></label>
+                                    <input type="text" class="form-control" wire:model.defer="linkedin_url" placeholder="Enter Linkedin URL">
+                                    @error('linkedin_url') {{ $message }} @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save Social Networks</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="tab-pane fade {{ $tab == 'payment_methods' ? 'show active' : ''}}" id="payment_methods" role="tabpanel">

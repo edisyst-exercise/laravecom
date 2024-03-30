@@ -267,9 +267,39 @@ class AdminController extends Controller
                 'msg'    => 'Logo non modificato, ci sono stati errori',
             ]);
         }
-
     }
 
+    public function changeFavicon(Request $request)
+    {
+        $path = 'images/site/';
+        $file = $request->file('site_favicon');
+        $settings = new GeneralSetting();
+        $old_favicon = $settings->first()->site_favicon;
+//        $file_path = $path . $old_favicon; //lui questa volta non lo mette
+        $filename = 'FAV_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $upload = $file->move(public_path($path), $filename);
+
+        if ($upload) {
+            if ( $old_favicon != null && File::exists(public_path($path.$old_favicon)) ) {
+                File::delete(public_path($path.$old_favicon));
+            }
+            $settings = $settings->first();
+            $settings->site_favicon = $filename;
+            $update = $settings->save();
+
+            return response()->json([
+                'status' => 1,
+                'msg'    => 'site_favicon del sito modificato correttamente',
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => 0,
+                'msg'    => 'site_favicon non modificato, ci sono stati errori',
+            ]);
+        }
+    }
 
 
 }

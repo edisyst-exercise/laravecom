@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\Admin\ForgotPasswordMail;
 use App\Mail\Admin\ResetPasswordMail;
 use App\Models\Admin;
+use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -200,8 +202,75 @@ class AdminController extends Controller
             session()->flash('fail', "Qualcosa è andato storto");
             return redirect()->route('admin.forgot-password');
         }
+    }
+
+    public function profileView(Request $request)
+    {
+        $admin = null;
+
+        if ( Auth::guard('admin')->check() ) {
+            $admin = Admin::findOrFail(auth()->id());
+        }
+
+        return view('back.pages.admin.profile', compact('admin'));
+    }
+
+    public function changeProfilePicture(Request $request)
+    {
+        $admin = Admin::findOrFail(auth('admin')->id());
+        $path = "images/users/admins/";
+        $old_picture = $admin->getAttributes()['picture'];
+
+        $file = $request->file('adminProfilePictureFile');
+        $filename = "ADMIN_IMG_" . rand(2, 1000) . $admin->id . time() . uniqid() . ".jpg";
+        $upload = $file->move(public_path($path), $filename);
+
+        if ($upload) {
+            if ($old_picture != null && File::exists(public_path($path . $old_picture))) {
+                File::delete(public_path($path. $old_picture));
+            }
+            $admin->update(['picture' => $filename]);
+            return response()->json(['status' => 1, 'msg' => 'Immagine aggiornata']);
+            // FUNZIONA TUTTO PERO' QUESTA IMMAGINE NON LA AGGIORNA IN TEMPO REALE
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Qualcosa è andato storto']);
+        }
+    }
+
+    public function changeLogo(Request $request)
+    {
+        $path = 'images/site/';
+        $file = $request->file('site_logo');
+        $settings = new GeneralSetting();
+        $old_logo = $settings->first()->site_logo;
+        $file_path = $path . $old_logo;
+        $filename = 'LOGO_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $upload = $file->move(public_path($path), $filename);
+
+        if ($upload) {
+            if ($old_logo != null && File::exists(public_path($path), $old_logo)) {
+                File::delete(public_path($path.$old_logo));
+            }
+            $settings = $settings->first();
+            $settings->site_logo = $filename;
+            $update = $settings->save();
+
+            return response()->json([
+                'status' => 1,
+                'msg'    => 'Logo del sito modificato correttamente',
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => 0,
+                'msg'    => 'Logo non modificato, ci sono stati errori',
+            ]);
+        }
 
     }
+
+
 
 }
 

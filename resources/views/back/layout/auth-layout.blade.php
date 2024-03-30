@@ -43,7 +43,9 @@
         href="/back/vendors/styles/icon-font.min.css"
     />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
+    <link rel="stylesheet" href="/public/extra-assets/ijabo/ijabo.min.css">
 
+    @livewireStyles
     @stack('stylesheets')
 </head>
 <body class="login-page">
@@ -53,12 +55,14 @@
     >
         <div class="brand-logo">
             <a href="login.html">
-                <img src="/back/vendors/images/deskapp-logo.svg" alt="" />
+                <img src="/images/site/{{ get_settings()->site_logo }}" alt="" />
             </a>
         </div>
         <div class="login-menu">
             <ul>
-                <li><a href="register.html">Register</a></li>
+                @if(! \Illuminate\Support\Facades\Route::is('admin.*'))
+                    <li><a href="register.html">Register</a></li>
+                @endif
             </ul>
         </div>
     </div>
@@ -84,6 +88,36 @@
 <script src="/back/vendors/scripts/process.js"></script>
 <script src="/back/vendors/scripts/layout-settings.js"></script>
 
+<script>
+    // Per impedire di tornare indietro dalla pagina di login
+    if (navigator.userAgent.indexOf("Firefox") != -1) {
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+    }
+</script>
+
+<script src="public/extra-assets/ijabo/ijabo.min.js"></script>
+<script src="public/extra-assets/ijabo/jquery.ijaboViewer.min.js"></script>
+<script>
+    window.addEventListener('showToastr', function (event) {
+        toastr.remove();
+        if (event.detail.type === 'info') {
+            toastr.info(event.detail.message);
+        } else if (event.detail.type === 'success') {
+            toastr.success(event.detail.message);
+        } else if (event.detail.type === 'error') {
+            toastr.error(event.detail.message);
+        } else if (event.detail.type === 'warning') {
+            toastr.warning(event.detail.message);
+        } else {
+            return false;
+        }
+    });
+</script>
+
+@livewireScripts
 @stack('scripts')
 </body>
 </html>

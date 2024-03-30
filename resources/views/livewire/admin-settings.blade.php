@@ -78,15 +78,23 @@
             </div>
             <div class="tab-pane fade {{ $tab == 'logo_favicon' ? 'show active' : ''}}" id="logo_favicon" role="tabpanel">
                 <div class="pd-20">
-                    logo_favicon ipsum dolor sit amet, consectetur adipisicing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis
-                    nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum.
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Site logo</h5>
+                            <div class="mb-2 mt-1" style="max-width: 200px;">
+                                <img wire:ignore src="" data-ijabo-default-img="/images/site/{{ $site_logo }}"
+                                     id="site_logo_image_preview" class="img-thumbnail">
+                            </div>
+                            <form action="{{ route('admin.change-logo') }}" method="post" enctype="multipart/form-data" id="change_site_logo_form">
+                                @csrf
+                                <div class="mb-2">
+                                    <input type="file" name="site_logo" id="site_logo" class="form-control">
+                                    <span class="text-danger error-text site_logo_error"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Logo</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade {{ $tab == 'social_networks' ? 'show active' : ''}}" id="social_networks" role="tabpanel">

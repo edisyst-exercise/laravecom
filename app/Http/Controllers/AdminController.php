@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Admin\ForgotPasswordMail;
 use App\Mail\Admin\ResetPasswordMail;
 use App\Models\Admin;
+use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -234,6 +235,39 @@ class AdminController extends Controller
         } else {
             return response()->json(['status' => 0, 'msg' => 'Qualcosa è andato storto']);
         }
+    }
+
+    public function changeLogo(Request $request)
+    {
+        $path = 'images/site/';
+        $file = $request->file('site_logo');
+        $settings = new GeneralSetting();
+        $old_logo = $settings->first()->site_logo;
+        $file_path = $path . $old_logo;
+        $filename = 'LOGO_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        $upload = $file->move(public_path($path), $filename);
+
+        if ($upload) {
+            if ($old_logo != null && File::exists(public_path($path), $old_logo)) {
+                File::delete(public_path($path.$old_logo));
+            }
+            $settings = $settings->first();
+            $settings->site_logo = $filename;
+            $update = $settings->save();
+
+            return response()->json([
+                'status' => 1,
+                'msg'    => 'Logo del sito modificato correttamente',
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => 0,
+                'msg'    => 'Logo non modificato, ci sono stati errori',
+            ]);
+        }
+
     }
 
 

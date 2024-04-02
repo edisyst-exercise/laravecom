@@ -23,7 +23,9 @@ $this->dispatch('updateAdminInfo', [
 ]);
 ```
 
-https://github.com/mberecall/ijaboCropTool
+Per gli asset del BE: https://github.com/mberecall/ijaboCropTool
+
+Per gli slug: https://github.com/cviebrock/eloquent-sluggable
 
 **Riprendere da lez.18**
 
@@ -36,3 +38,11 @@ https://github.com/mberecall/ijaboCropTool
 
 ## v0.1.2
 - Ho fatto la sezione social_network praticamente scopiazzando da general_settings
+
+
+Devo decidere quale è il content del FE, ma la struttura è pronta. Riprendi da Lez.20
+
+php artisan make:migration add_address_to_general_settings_table --table=general_settings
+
+
+

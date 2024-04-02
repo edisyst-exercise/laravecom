@@ -6,31 +6,17 @@
     <title>@yield('pageTitle')</title>
 
     <!-- Site favicon -->
-    <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/images/site/{{ get_settings()->site_favicon }}"
-    />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/site/{{ get_settings()->site_favicon }}" />
 
     <!-- Mobile Specific Metas -->
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <!-- Google Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/core.css" />
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="/back/vendors/styles/icon-font.min.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/back/vendors/styles/icon-font.min.css"  />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
 
     <!-- Google Tag Manager -->
@@ -428,6 +414,12 @@
                            class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.home') ? 'active' : '' }}">
                             <span class="micon fa fa-home"></span>
                             <span class="mtext">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.manage-categories.cat-subcat-list') }}" class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.manage-categories.cat-subcat-list') ? 'active' : '' }}">
+                            <span class="micon dw dw-align-left3"></span>
+                            <span class="mtext">Manage Categories</span>
                         </a>
                     </li>
                     <li>

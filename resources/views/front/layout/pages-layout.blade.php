@@ -29,6 +29,8 @@
     <!-- Template Stylesheet -->
     <link href="front/css/style.css" rel="stylesheet">
 
+    <!-- Site favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/site/{{ get_settings()->site_favicon }}" />
 
     @livewireStyles
     @stack('stylesheets')

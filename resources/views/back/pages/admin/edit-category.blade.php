@@ -1,0 +1,91 @@
+ @extends('back.layout.pages-layout')
+
+@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Admin Home')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-dark">Edit Category</h4>
+                    </div>
+                    <div class="pull-right">
+                        <a href="{{ route('admin.manage-categories.cat-subcat-list') }}" class="btn btn-primary btn-sm" type="button">
+                            <i class="ion-arrow-left-a"></i>
+                            Back to Category List
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <form action="{{ route('admin.manage-categories.update-category') }}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ request('id') }}">
+                    @csrf
+                    @if (\Illuminate\Support\Facades\Session::get('success'))
+                        <div class="alert alert-success">
+                            <strong><i class="dw dw-checked"></i></strong>
+                            {!! \Illuminate\Support\Facades\Session::get('success') !!}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @if (\Illuminate\Support\Facades\Session::get('fail'))
+                        <div class="alert alert-danger">
+                            <strong><i class="dw dw-checked"></i></strong>
+                            {!! \Illuminate\Support\Facades\Session::get('fail') !!}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="name">Category name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Enter category name" value="{{ $category->name }}">
+                                @error('name')
+                                    <span class="text-danger ml-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="image">Category image</label>
+                                <input type="file" class="form-control" name="image" >
+                                @error('image')
+                                    <span class="text-danger ml-2">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="avatar mb-3">
+                                <img src="" alt="" data-ijabo-default-img="/images/categories/{{ $category->image }}" width="50" height="50"
+                                id="image_preview">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        // script di anteprima site_logo: forse lgi alter sono superflui
+        $('input[type="file"][name="image"]').ijaboViewer({
+            preview: '#image_preview',
+            imageShape: 'square', //set square if favicon
+            allowedExtensions: ['png', 'jpg', 'jpeg', 'svg'],
+            onErrorShape: function (message, element) {
+                alert(message);
+            },
+            onInvalidType: function (message, element) {
+                alert(message);
+            },
+            onSuccess: function (message, element) {
+                // alert(message); // lo uso solo se devo debuggare
+            },
+        });
+    </script>
+@endpush

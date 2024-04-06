@@ -25,7 +25,7 @@ if (!function_exists('get_settings'))
     }
 }
 
-/* GET GENERAL SETTINGS*/
+/* GET SOCIAL NETWORKS */
 if (!function_exists('get_social_network'))
 {
     function get_social_network()

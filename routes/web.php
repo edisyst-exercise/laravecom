@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 //Route::view('/page', 'page');
 //Route::view('/auth', 'page');
+Route::view('example-frontend', 'example-frontend');
 

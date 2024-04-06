@@ -61,6 +61,15 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="site_address"><b>Site address</b></label>
+                                    <input type="text" class="form-control" placeholder="Enter site address" wire:model.defer="site_address">
+                                    @error('site_address')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="site_meta_description"><b>Site meta description</b></label>

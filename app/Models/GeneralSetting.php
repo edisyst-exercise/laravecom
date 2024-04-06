@@ -15,5 +15,6 @@ class GeneralSetting extends Model
         'site_phone',
         'site_meta_keywords',
         'site_meta_description',
+        'site_address',
     ];
 }

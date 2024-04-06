@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
 Route::prefix('admin')->name('admin.')->group(function (){
-
     Route::middleware(['guest:admin'])->group(function (){
         Route::middleware(['PreventBackHistory'])->group(function (){
             Route::view('/login', 'back.pages.admin.auth.login')->name('login');
@@ -25,6 +24,17 @@ Route::prefix('admin')->name('admin.')->group(function (){
             Route::view('/settings', 'back.pages.admin.settings')->name('settings');
             Route::post('/change-logo', [AdminController::class, 'changeLogo'])->name('change-logo');
             Route::post('/change-favicon', [AdminController::class, 'changeFavicon'])->name('change-favicon');
+
+            //CATEGORIES & SUBCATEGORIES MANAGEMENT min 4.14
+            Route::prefix('manage-categories')->name('manage-categories.')->group(function (){
+                Route::controller(\App\Http\Controllers\Admin\CategoriesController::class)->group(function (){
+                    Route::get('/', 'catSubcatList')->name('cat-subcat-list');
+                    Route::get('/add-category', 'addCategory')->name('add-category');
+                    Route::post('/store-category', 'storeCategory')->name('store-category');
+                    Route::get('/edit-category', 'editCategory')->name('edit-category');
+                    Route::post('/update-category', 'updateCategory')->name('update-category');
+                });
+            });
         });
     });
 

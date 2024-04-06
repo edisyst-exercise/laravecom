@@ -6,31 +6,17 @@
     <title>@yield('pageTitle')</title>
 
     <!-- Site favicon -->
-    <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/images/site/{{ get_settings()->site_favicon }}"
-    />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/site/{{ get_settings()->site_favicon }}" />
 
     <!-- Mobile Specific Metas -->
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
     <!-- Google Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/core.css" />
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="/back/vendors/styles/icon-font.min.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/back/vendors/styles/icon-font.min.css"  />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
 
     <!-- Google Tag Manager -->
@@ -50,6 +36,10 @@
     <link rel="stylesheet" href="/extra-assets/ijabo/ijabo.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/extra-assets/ijaboCropTool/ijaboCropTool.min.css">
+    <!-- JQuery UI -->
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.min.css">
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.theme.min.css">
 
     @livewireStyles
     @stack('stylesheets')
@@ -410,7 +400,7 @@
 
 <div class="left-side-bar">
     <div class="brand-logo">
-        <a href="index.html">
+        <a href="/">
             <img src="/images/site/{{ get_settings()->site_logo }}" alt="" class="dark-logo" />
             <img src="/images/site/{{ get_settings()->site_logo }}" alt="" class="light-logo" />
         </a>
@@ -428,6 +418,12 @@
                            class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.home') ? 'active' : '' }}">
                             <span class="micon fa fa-home"></span>
                             <span class="mtext">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.manage-categories.cat-subcat-list') }}" class="dropdown-toggle no-arrow {{ \Illuminate\Support\Facades\Route::is('admin.manage-categories.cat-subcat-list') ? 'active' : '' }}">
+                            <span class="micon dw dw-align-left3"></span>
+                            <span class="mtext">Manage Categories</span>
                         </a>
                     </li>
                     <li>
@@ -527,6 +523,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="/extra-assets/ijaboCropTool/ijaboCropTool.min.js"></script>
+<!-- JQuery UI -->
+<script src="/extra-assets/jquery-ui-1.13.2/jquery-ui.js"></script>
+
 <script>
     window.addEventListener('showToastr', function(event){
         toastr.remove();

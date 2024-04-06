@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -146,7 +147,52 @@ class CategoriesController extends Controller
             return redirect()->route('admin.manage-categories.add-category')
                 ->with('fail', 'Non ho salvato la categoria. Riprova più tardi');
         }
-
     }
+
+    public function addSubcategory(Request $request)
+    {
+        $independent_subcategories = Subcategory::where('is_child_of', 0)->get();
+        $categories = Category::all();
+
+        $data = [
+            'pageTitle' => "Add Category",
+            'categories' => $categories,
+            'subcategories' => $independent_subcategories,
+        ];
+
+        return view('back.pages.admin.add-subcategory', $data);
+    }
+
+    public function storeSubcategory (Request $request)
+    {
+        //VALIDATE
+        $request->validate([
+            'name'             => 'required|min:5|unique:subcategories,name',
+            'parent_category'  => 'required|exists:categories,id',
+        ],[
+            'name.required'  => ':Attribute is required',
+            'name.min'       => ':Attribute must contain at least 5 chars',
+            'name.unique'    => ':Attribute already exists',
+            'parent_category.required'    => ':Attribute is required',
+            'parent_category.exists'    => ':Attribute must exists in categories table',
+        ]);
+
+        //SAVE SUBCATEGORY INTO DB
+        $subcategory = new Subcategory();
+        $subcategory->name = $request->name;
+        $subcategory->is_child_of = $request->is_child_of;
+        $subcategory->category_id = $request->parent_category;
+        $saved = $subcategory->save();
+
+        if ($saved) {
+            return redirect()->route('admin.manage-categories.add-subcategory')
+                ->with('success', 'Nuova sottocategoria <b>' .ucfirst($request->name). '</b> inserita');
+        } else {
+            return redirect()->route('admin.manage-categories.add-subcategory')
+                ->with('fail', 'Non ho salvato la sottocategoria. Riprova più tardi');
+        }
+    }
+
+
 
 }

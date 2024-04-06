@@ -32,7 +32,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $category->name }}</td>
-                                <td>12</td>
+                                <td>{{ $category->subcategories->count() }}</td>
                                 <td>
                                     <div class="table-actions">
                                         <a href="{{ route('admin.manage-categories.edit-category', ['id' => $category->id]) }}" class="text-primary">
@@ -46,9 +46,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">
-                                    <span class="text-danger">No categories found</span>
-                                </td>
+                                <td colspan="4"><span class="text-danger">No categories found</span></td>
                             </tr>
                         @endforelse
                         </tbody>
@@ -63,7 +61,7 @@
                         <h4 class="h4 text-blue">Sub Categories</h4>
                     </div>
                     <div class="pull-right">
-                        <a href="" class="btn btn-primary btn-sm" type="button">
+                        <a href="{{ route('admin.manage-categories.add-subcategory') }}" class="btn btn-primary btn-sm" type="button">
                             <i class="fa fa-plus"></i>
                             Add Sub Category
                         </a>
@@ -80,21 +78,27 @@
                         </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td>Mobile & Computer</td>
-                            <td>Electronics</td>
-                            <td>12</td>
-                            <td>
-                                <div class="table-actions">
-                                    <a href="" class="text-primary">
-                                        <i class="dw dw-edit-1"></i>
-                                    </a>
-                                    <a href="" class="text-danger">
-                                        <i class="dw dw-delete-3"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        @forelse($subcategories as $subcategory)
+                            <tr>
+                                <td>{{ $subcategory->name }}</td>
+                                <td>{{ $subcategory->category->name }}</td>
+                                <td>{{ $subcategory->children->count() }}</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <a href="" class="text-primary">
+                                            <i class="dw dw-edit-1"></i>
+                                        </a>
+                                        <a href="" class="text-danger">
+                                            <i class="dw dw-delete-3"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4"><span class="text-danger">No subcategories found</span></td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

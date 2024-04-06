@@ -36,6 +36,10 @@
     <link rel="stylesheet" href="/extra-assets/ijabo/ijabo.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/extra-assets/ijaboCropTool/ijaboCropTool.min.css">
+    <!-- JQuery UI -->
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.min.css">
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="/extra-assets/jquery-ui-1.13.2/jquery-ui.theme.min.css">
 
     @livewireStyles
     @stack('stylesheets')
@@ -519,6 +523,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script src="/extra-assets/ijaboCropTool/ijaboCropTool.min.js"></script>
+<!-- JQuery UI -->
+<script src="/extra-assets/jquery-ui-1.13.2/jquery-ui.js"></script>
+
 <script>
     window.addEventListener('showToastr', function(event){
         toastr.remove();

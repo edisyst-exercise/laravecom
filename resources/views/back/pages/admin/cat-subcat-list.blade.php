@@ -3,98 +3,50 @@
 @section('pageTitle', isset($pageTitle) ? $pageTitle : 'Admin Home')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="h4 text-blue">Categories</h4>
-                    </div>
-                    <div class="pull-right">
-                        <a href="{{ route('admin.manage-categories.add-category') }}" class="btn btn-primary btn-sm" type="button">
-                            <i class="fa fa-plus"></i>
-                            Add Category
-                        </a>
-                    </div>
-                </div>
-                <div class="table-responsive mt-4">
-                    <table class="table table-borderless table-striped">
-                        <thead class="bg-secondary text-white">
-                        <tr>
-                            <th>Category image</th>
-                            <th>Category name</th>
-                            <th>Nr. of subcategories</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td>
-                                <div class="avatar mr-2">
-                                    <img src="" width="50" height="50" alt="">
-                                </div>
-                            </td>
-                            <td>Electronics</td>
-                            <td>12</td>
-                            <td>
-                                <div class="table-actions">
-                                    <a href="" class="text-primary">
-                                        <i class="dw dw-edit-1"></i>
-                                    </a>
-                                    <a href="" class="text-danger">
-                                        <i class="dw dw-delete-3"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="h4 text-blue">Sub Categories</h4>
-                    </div>
-                    <div class="pull-right">
-                        <a href="" class="btn btn-primary btn-sm" type="button">
-                            <i class="fa fa-plus"></i>
-                            Add Sub Category
-                        </a>
-                    </div>
-                </div>
-                <div class="table-responsive mt-4">
-                    <table class="table table-borderless table-striped">
-                        <thead class="bg-secondary text-white">
-                        <tr>
-                            <th>Sub Category name</th>
-                            <th>Category name</th>
-                            <th>Nr. of childs Sub Category</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td>Mobile & Computer</td>
-                            <td>Electronics</td>
-                            <td>12</td>
-                            <td>
-                                <div class="table-actions">
-                                    <a href="" class="text-primary">
-                                        <i class="dw dw-edit-1"></i>
-                                    </a>
-                                    <a href="" class="text-danger">
-                                        <i class="dw dw-delete-3"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    @livewire('admin-categories-list')
 @endsection
+
+@push('scripts')
+    <script>
+        $('table tbody#sortable_categories').sortable({
+            cursor:"move",
+            update: function (event, ui) {
+                $(this).children().each(function (index) {
+                    if( $(this).attr("data-ordering") != (index + 1)) {
+                        $(this).attr("data-ordering", (index + 1)).addClass("updated");
+                    }
+                });
+                var positions = [];
+                $(".updated").each(function (){
+                    positions.push([$(this).attr("data-index"), $(this).attr("data-ordering")]);
+                    $(this).removeClass("updated");
+                })
+                // alert(positions);
+                Livewire.dispatch('updateCategoriesOrdering', positions);
+            }
+        });
+
+        $(document).on('click', ".delete-category-btn", function (e) {
+            e.preventDefault();
+            var category_id = $(this).data('id'); // legge il campo data-id
+            swal.fire({
+                title: "Ne sei sicuro?",
+                html: "Stai per eliminare questa categoria",
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Certo, eliminala",
+                confirmButtonColor: "#3085d6",
+                cancelButtonText: "Annulla operazione",
+                cancelButtonColor: "#d33",
+                width: 300,
+                allowOutsideClick:false
+            }).then(function (result) {
+                if (result.value) {
+                    console.log(result)
+                    // alert(category_id)
+                    Livewire.dispatch('deleteCategory', [category_id]);
+                }
+            });
+        });
+    </script>
+@endpush

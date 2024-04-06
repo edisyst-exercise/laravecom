@@ -44,5 +44,5 @@ Devo decidere quale è il content del FE, ma la struttura è pronta. Riprendi da
 
 php artisan make:migration add_address_to_general_settings_table --table=general_settings
 
-
+Per le categorie dovrei rinominare un po' meglio i file, magari le view e anche alcune route: rendere il tutto più breve e leggibile
 

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 
@@ -58,7 +59,8 @@ class AdminCategoriesList extends Component
     public function render()
     {
         return view('livewire.admin-categories-list', [
-            'categories' =>Category::orderBy('ordering', 'asc')->get()
+            'categories' =>Category::orderBy('ordering', 'asc')->get(),
+            'subcategories' =>Subcategory::orderBy('ordering', 'asc')->get(),
         ]);
     }
 }

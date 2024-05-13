@@ -163,7 +163,7 @@ class CategoriesController extends Controller
         return view('back.pages.admin.add-subcategory', $data);
     }
 
-    public function storeSubcategory (Request $request)
+    public function storeSubcategory(Request $request)
     {
         //VALIDATE
         $request->validate([
@@ -192,6 +192,64 @@ class CategoriesController extends Controller
                 ->with('fail', 'Non ho salvato la sottocategoria. Riprova più tardi');
         }
     }
+
+    public function editSubcategory(Request $request)
+    {
+        $id = $request->id;
+        $subcategory= Subcategory::findOrFail($id);
+        $independent_subcategories = Subcategory::where('is_child_of', 0)->get();
+        $data = [
+            'pageTitle' => 'Edit Subcategory',
+            'categories'  => Category::all(),
+            'subcategory'  => $subcategory,
+            'subcategories'  => (!empty($independent_subcategories)) ? $independent_subcategories : []
+        ];
+        return view('back.pages.admin.edit-subcategory', $data);
+
+    }
+
+    public function updateSubcategory(Request $request)
+    {
+        $id = $request->id;
+        $subcategory= Subcategory::findOrFail($id);
+
+        //VALIDATE
+        $request->validate([
+            'parent_category' => 'required|exists:categories,id',
+            'name'            => 'required|min:5|unique:subcategories,name,' .$id, //serve per poter salvare anche con lo stesso name
+        ],[
+            'parent_category.required'  => ':Attribute is required',
+            'parent_category.exists'    => ':Attribute not exixting in categories table',
+            'name.required'             => ':Attribute is required',
+            'name.min'                  => ':Attribute must contain at least 5 chars',
+            'name.unique'               => ':Attribute already exists',
+        ]);
+
+        //CHECK FOR CHILDREN OF THE SUBCATEGORY
+        if ($subcategory->children->count() && $request->is_child_of != 0) {
+            return redirect()->route('admin.manage-categories.edit-subcategory', ['id' => $subcategory->id])
+                ->with('fail', 'Questa categoria ha (' . $subcategory->children->count() . ') figli. Non puoi cambiare is_child_of a meno che non sia senza figli');
+        } else {
+            //UPDATE SUBCATEGORY INFO
+            $subcategory->category_id = $request->parent_category;
+            $subcategory->name = $request->name;
+            $subcategory->is_child_of = $request->is_child_of;
+            $saved = $subcategory->save();
+
+            //REDIRECT AFTER UPDATE CATEGORY
+            if ($saved) {
+                return redirect()->route('admin.manage-categories.edit-subcategory', ['id'=>$id])
+                    ->with('success', 'La categoria <b>' .ucfirst($request->name). '</b> è stata modificata');
+            } else {
+                return redirect()->route('admin.manage-categories.add-subcategory')
+                    ->with('fail', 'Non ho salvato la sottocategoria. Riprova più tardi');
+            }
+        }
+
+
+
+    }
+
 
 
 

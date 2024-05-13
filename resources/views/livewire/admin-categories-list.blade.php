@@ -52,8 +52,10 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-block mt-2">{{ $categories->links('livewire::simple-bootstrap') }}</div>
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">
@@ -73,22 +75,38 @@
                         <tr>
                             <th>Sub Category name</th>
                             <th>Category name</th>
-                            <th>Nr. of childs Sub Category</th>
+                            <th>Childs Sub Category</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody class="table-border-bottom-0">
+                        <tbody class="table-border-bottom-0" id="sortable_subcategories">
                         @forelse($subcategories as $subcategory)
-                            <tr>
+                            <tr data-index="{{ $subcategory->id }}" data-ordering="{{ $subcategory->ordering }}">
                                 <td>{{ $subcategory->name }}</td>
                                 <td>{{ $subcategory->category->name }}</td>
-                                <td>{{ $subcategory->children->count() }}</td>
+                                <td>
+                                    @if( $subcategory->children->count() > 0)
+                                        <ul class="list-group" id="sortable_child_subcategories">
+                                            @foreach($subcategory->children as $child)
+                                                <li data-index="{{ $child->id }}" data-ordering="{{ $child->ordering }}" class="d-flex justify-content-between align-items-center">
+                                                    - {{ $child->name }}
+                                                    <div>
+                                                        <a href="{{ route('admin.manage-categories.edit-subcategory', ['id' => $child->id]) }}" class="text-primary" data-toggle="tooltip" title="Edit child">Edit</a>
+                                                        <a href="javascript:;" class="text-danger delete-child-subcategory-btn" data-toggle="tooltip" data-title="Delete child" data-id="{{ $child->id }}">Delete</a>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        None
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="table-actions">
-                                        <a href="" class="text-primary">
+                                        <a href="{{ route('admin.manage-categories.edit-subcategory', ['id' => $subcategory->id]) }}" class="text-primary" title="Edit Subcategory">
                                             <i class="dw dw-edit-1"></i>
                                         </a>
-                                        <a href="" class="text-danger">
+                                        <a href="javascript:;" class="text-danger delete-subcategory-btn" data-id="{{ $subcategory->id }}" data-title="Delete Subcategory">
                                             <i class="dw dw-delete-3"></i>
                                         </a>
                                     </div>
@@ -102,6 +120,7 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-block mt-2">{{ $subcategories->links('livewire::simple-bootstrap') }}</div>
             </div>
         </div>
     </div>

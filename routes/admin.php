@@ -25,7 +25,7 @@ Route::prefix('admin')->name('admin.')->group(function (){
             Route::post('/change-logo', [AdminController::class, 'changeLogo'])->name('change-logo');
             Route::post('/change-favicon', [AdminController::class, 'changeFavicon'])->name('change-favicon');
 
-            //CATEGORIES & SUBCATEGORIES MANAGEMENT min 4.14
+            //CATEGORIES & SUBCATEGORIES MANAGEMENT
             Route::prefix('manage-categories')->name('manage-categories.')->group(function (){
                 Route::controller(\App\Http\Controllers\Admin\CategoriesController::class)->group(function (){
                     Route::get('/', 'catSubcatList')->name('cat-subcat-list');
@@ -36,6 +36,8 @@ Route::prefix('admin')->name('admin.')->group(function (){
 
                     Route::get('/add-subcategory', 'addSubcategory')->name('add-subcategory');
                     Route::post('/store-subcategory', 'storeSubcategory')->name('store-subcategory');
+                    Route::get('/edit-subcategory', 'editSubcategory')->name('edit-subcategory');
+                    Route::post('/update-subcategory', 'updateSubcategory')->name('update-subcategory');
                 });
             });
         });
